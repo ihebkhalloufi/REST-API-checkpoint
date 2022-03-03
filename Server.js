@@ -16,8 +16,9 @@ mongoose.connect(process.env.MONGO_URI,
 	})
 
 app.use(express.json())
-app.use(require("./routes/index"))
-
+app.use(require("./routes/auth"));
+app.use(require("./routes/GamesList"));
+app.use(require("./routes/Userlist"));
 
 const PORT = process.env.PORT || 5000;
 

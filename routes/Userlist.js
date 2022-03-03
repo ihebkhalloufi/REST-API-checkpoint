@@ -1,48 +1,53 @@
 const router = require("express").Router()
 const User = require("../Model/User")
-
-router.post("/createUser", async(req, res) => {
+/*ADD USER
+router.post("/Register", async(req, res) => {
     try {
-        const {FirstName, LastName, Email,Password} = req.body
+        const {Username, Email,Age,Password} = req.body
         const usedemail = await User.findOne({Email})
+        const usedusername = await User.findOne({Username})
      if (usedemail) {
             res.status(200).json({status: false, message:"EMAIL ALREADY EXISTE"})
+        } else
+        if (usedusername) {
+            res.status(200).json({status: false, message:"USERNAME ALREADY EXISTE"})
         } else {
-            const users = await User.create({FirstName, LastName, Email,Password})
-            res.status(200).json({status: true, message:"USER CREATED", data: users})
+            const users = await User.create({Username, Email,Age,Password})
+            res.status(200).json({status: true, message:"USER REGISETER", data: users})
         }
     } catch(error) {
         res.status(200).json({status: false, message: error ,message:"SOMETHING WRONG !!!"})
     }
-})
-
+})*/
+//FIND ALL USERS
 router.get("/finduser", async(req, res) => {
     try {
         const user= await User.find({})
          if (user) {
-             res.status(200).json({status: true, message:"USERS DATA", data: user})
+             res.status(200).json({status:false, message:"USERS DATA", data: user})
          } else {
-            res.status(200).json({status: true, message:"NOTHING USER DATA"})
+            res.status(200).json({status: false, message:"NOTHING USER DATA"})
          }
     } catch(error) {
         res.status(200).json({status: false, message: error ,message:"SOMETHING WRONG !!!"})
     }
 })
-
+//FIND USER BY ID
 router.get("/finduser/:id", async(req, res) => {
     try {
         const {id} = req.params
         const user= await User.findById(id)
 
          if (user) {
-             res.status(200).json({status: true, message:"USER DATA", data: user})
+             res.status(200).json({status: false, message:"USER DATA", data: user})
          } else {
-            res.status(200).json({status: true, message:"NO USER DATA!!!"})
+            res.status(200).json({status: false, message:"NO USER DATA!!!"})
          }
     } catch(error) {
         res.status(200).json({status: false, message: error ,message:"SOMETHING WRONG !!!"})
     }
 })
+//DELETE USER
 router.delete("/deleteuser/:id", async(req, res) => {
     try {
         const {id} = req.params
@@ -50,17 +55,18 @@ router.delete("/deleteuser/:id", async(req, res) => {
 
         if (user) {
             await User.findByIdAndDelete(id)
-            res.status(200).json({status: true, message:"USER DELETED",data: user})
+            res.status(200).json({status: false, message:"USER DELETED",data: user})
         } else {
-            res.status(200).json({status: true, message:"NO USER DATA !!!"})
+            res.status(200).json({status: false, message:"NO USER DATA !!!"})
         }
     } catch(error) {
         res.status(200).json({status: false, message: error })
     }
 })
+//UPDATE USER
 router.put("/updateuser/:id", async(req, res) => {
     try {
-        const {FirstName, LastName,Email,Password} = req.body
+        const {Username,Email,Age,Password} = req.body
         const {id} = req.params
 
         const user = await User.findById(id)
@@ -72,14 +78,14 @@ router.put("/updateuser/:id", async(req, res) => {
                 res.status(200).json({status: false, message:"EMAIL ALREADI EXISTS"})
             } else
              {
-                const users = await Contact.findByIdAndUpdate(id, {FirstName,LastName,Email,Password})
-                res.status(200).json({status: true, message:"USER UPDATED", data: users})
+                const users = await User.findByIdAndUpdate(id, {Username,Email,Age,Password})
+                res.status(200).json({status: false, message:"USER UPDATED", data: users})
             }
         } else {
-            res.status(200).json({status: true, message:"SOMETHING WRONG!!!"})
+            res.status(200).json({status: false, message:"SOMETHING WRONG!!!"})
         }
     } catch(error) {
-        res.status(500).json({status: false, message: error })
+        res.status(200).json({status: false, message: error })
     }
 })
 
